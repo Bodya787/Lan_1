@@ -1,0 +1,109 @@
+/*Создать текстовый файл с записями, включающие имя/фамилию человека, год рождения, пол и рост (в метрах). 
+Упорядочить элементы по году рождения, имени/фамилии, полу или росту. Вывести результат. 
+Указать элемент, по которому следует упорядочить, через консоль. 
+А также реализовать возможность задавать несколько полей для упорядочивания.*/
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+struct person 
+{
+    char name[50];
+    char surname[50];
+    int birth_year;
+    char gender;
+    float height;
+};
+
+
+int compare_year(const void *a, const void *b) 
+{
+    // Сравниваем элементы структуры a и b на основе года рождения
+    int res1 = ((struct person *)a)->birth_year - ((struct person *)b)->birth_year;
+    return res1;
+}
+
+int compare_name(const void *a, const void *b) 
+{
+    // Сравниваем имена элементов структуры a и b
+    int result = strcmp(((struct person *)a)->name, ((struct person *)b)->name);
+    if (result != 0)
+    {
+        return result;
+    }
+    else
+    {
+        return strcmp(((struct person *)a)->surname, ((struct person *)b)->surname);
+    }
+    return result;
+}
+
+
+int compare_gender(const void *a, const void *b)
+{
+    // Сравниваем элементы структуры a и b на основе пола
+    int res2 = ((struct person *)a)->gender - ((struct person *)b)->gender;
+    return res2;
+}
+
+int compare_height(const void *a, const void *b) 
+{
+    // Сравниваем элементы структуры a и b на основе роста
+    return ((struct person *)a)->height - ((struct person *)b)->height;
+}
+
+int main() 
+{
+    FILE *file;
+    file = fopen("people.txt", "wt");
+
+    fprintf(file, "John Smith 1990 m 1.80\n");
+    fprintf(file, "Alice Johnson 1985 f 1.65\n");
+    fprintf(file, "Michael Brown 1978 m 1.75\n");
+    fprintf(file, "John Gutierrez 1992 m 1.82\n");
+    fprintf(file, "Kelly Lopez 1995 f 1.60\n");
+    fprintf(file, "Nick Rivera 1999 m 1.88\n");
+    fprintf(file, "Dorothy Patterson 2000 f 1.73\n");
+    fprintf(file, "John Smith 1969 m 1.89\n");
+    fprintf(file, "Alice Johnson 1990 f 1.62\n");
+    fprintf(file, "Michael Brown 1977 m 1.95\n");
+    fprintf(file, "John Gutierrez 1990 m 1.80\n");
+    fclose(file);
+    int n = 11;
+    struct person *persons;
+    persons = (struct person*)malloc(n * sizeof(struct person));
+    file = fopen("people.txt", "rt");
+    for (int i = 0; i < n; i++) 
+    {
+        fscanf(file, "%s %s %d %c %f\n", persons[i].name, persons[i].surname, &persons[i].birth_year, &persons[i].gender, &persons[i].height);
+    }
+    fclose(file);
+    int sortChoice;
+    printf("Enter field to sort by (1 - Year of Birth, 2 - Name/Surname, 3 - Gender, 4 - Height): ");
+    scanf("%d", &sortChoice);
+    if (sortChoice == 1) 
+    { 
+        qsort(persons, n, sizeof(struct person), compare_year);
+    }        
+    else if (sortChoice == 2) 
+    { 
+        qsort(persons, n, sizeof(struct person), compare_name);
+    }
+    else if (sortChoice == 3) 
+    {
+        qsort(persons, n, sizeof(struct person), compare_gender);
+    }
+    else if (sortChoice == 4) 
+    {
+        qsort(persons, n, sizeof(struct person), compare_height);
+    }
+    printf("Sorted result:\n");
+    for (int i = 0; i < n; i++)
+    {
+        printf("%s %s %d %c %.2f\n", persons[i].name, persons[i].surname, persons[i].birth_year, persons[i].gender, persons[i].height);
+    }
+    free(persons);
+    return 0;
+}
