@@ -1,0 +1,98 @@
+#include <stdio.h>
+/* ЗАДАНИЕ 1 
+Объявить массив данных типа double размером 3 на 3. Ввести с консоли его значения, вывести на консоль сумму его элементов, 
+расположенных на главной диагонали и сумму элементов, расположенных на  побочной диагонали.
+*/
+
+int main ()
+{   int n = 3;
+    double mas[n][n], sum_main = 0, sum_off = 0;
+    int one_or_zero = 1;
+    do
+    {
+        for (int i = 0; i < n; i++)
+        for (int k = 0; k < n; k++)
+            {
+                printf("mas[%d][%d] = ", i + 1, k + 1);
+                scanf("%lf", &mas[i][k]);
+            }
+            printf("\nEntered matrix is:\n");
+            for (int i = 0; i < n; i++)
+            {
+                for (int k = 0; k < n; k++)
+                {
+                    printf("%lf  ", mas[i][k]);
+                }
+                printf("\n");
+            }
+            for (int i = 0; i < n; i++)
+            {
+                sum_main += mas[i][i];
+                sum_off += mas[i][(n-1)-i];
+            }
+    printf("The main diagonal sum is: %lf\n", sum_main);
+    printf("The side diagonal sum is: %lf\n", sum_off);
+    printf("enter 1 to continue or 0 to end: ");
+    scanf("%d", &one_or_zero);
+    }while (one_or_zero);
+    if (!one_or_zero)
+    {
+        printf("Programm is over!");
+    }
+    return 0;
+}
+
+
+
+
+/* ЗАДАНИЕ 2 
+Объявить массив данных типа int размером 2 на 2. Ввести с консоли его значения, вывести на консоль квадрат данной матрицы. */
+
+#include <stdio.h>
+
+int main ()
+
+{
+    int n = 2, arr[n][n], one_or_zero = 1, matrix[n][n];
+    do 
+    { 
+        for (int i = 0; i < n; i++)
+        {
+            for (int k = 0; k < n; k++)
+            {
+                printf("arr[%d][%d] = ", i + 1, k + 1);
+                scanf("%d", &arr[i][k]);
+            }
+        }
+                printf("\nEntered matrix is:\n");
+                for (int i = 0; i < n; i++)
+                {
+                    for (int k = 0; k < n; k++)
+                    {
+                        printf("%d  ", arr[i][k]);
+                    }
+                    printf("\n");
+                }
+                printf("New one is: \n");
+                for (int i = 0; i < n; i++) 
+                {
+                    for (int k = 0; k < n; k++) 
+                    {
+                        matrix[i][k] = 0;
+                        for (int j = 0; j < n; j++) 
+                        {
+                            matrix[i][k] += arr[i][j] * arr[j][k];
+                        }
+                        printf("%d ", matrix[i][k]);
+                    }
+                    printf("\n");
+                }
+    printf("\nenter 1 to continue or 0 to end: ");
+    scanf("%d", &one_or_zero);
+  } while (one_or_zero);
+if (!one_or_zero)
+ { printf ("Programm is over");
+   return 0;
+ }   
+return 0;
+}
